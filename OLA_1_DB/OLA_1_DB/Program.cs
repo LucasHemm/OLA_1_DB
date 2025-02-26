@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using OLA_1_DB.Facades;
 
 namespace OLA_1_DB;
 
@@ -16,6 +17,8 @@ public class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register Facades
+        builder.Services.AddScoped<TournamentFacade>();
+ 
 
 // Enable Swagger/OpenAPI
         builder.Services.AddEndpointsApiExplorer();
