@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using OLA_1_DB;
+
+namespace OLA_1_DB;
 
 public class Program
 {

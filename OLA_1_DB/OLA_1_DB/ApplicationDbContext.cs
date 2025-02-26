@@ -27,28 +27,33 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Disable cascade delete on the Tournament relationship
+        // Tournament foreign key configuration
         modelBuilder.Entity<Match>()
             .HasOne(m => m.Tournament_)
-            .WithMany(t => t.Matches) // Ensure Tournament has a Matches collection
+            .WithMany(t => t.Matches)
+            .HasForeignKey("tournament_id")
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Disable cascade delete on the Player1 relationship
+        // Player1 foreign key configuration
         modelBuilder.Entity<Match>()
             .HasOne(m => m.Player1_)
-            .WithMany(p => p.MatchesAsPlayer1) // Ensure Player has a MatchesAsPlayer1 collection
+            .WithMany(p => p.MatchesAsPlayer1)
+            .HasForeignKey("player1_id")
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Disable cascade delete on the Player2 relationship
+        // Player2 foreign key configuration
         modelBuilder.Entity<Match>()
             .HasOne(m => m.Player2_)
-            .WithMany(p => p.MatchesAsPlayer2) // Ensure Player has a MatchesAsPlayer2 collection
+            .WithMany(p => p.MatchesAsPlayer2)
+            .HasForeignKey("player2_id")
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Optionally, disable cascade delete on the Winner relationship if desired
+        // Winner foreign key configuration
         modelBuilder.Entity<Match>()
             .HasOne(m => m.Winner_)
-            .WithMany(p => p.MatchesWon) // Ensure Player has a MatchesWon collection
+            .WithMany(p => p.MatchesWon)
+            .HasForeignKey("winner_id")
             .OnDelete(DeleteBehavior.Restrict);
     }
+
 }
