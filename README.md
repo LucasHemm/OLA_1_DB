@@ -12,6 +12,7 @@
       - [Matches](#matches)
     - [SQL Script](#sql-script)
   - [Task 2](#task-2)
+    - [Result of 3 of the queries](#result-of-3-of-the-queries)
   - [Task 3](#task-3)
     - [Stored Procedures](#stored-procedures)
       - [register player](#register-player)
@@ -23,13 +24,23 @@
     - [Triggers](#triggers)
       - [beforeInsertRegistration](#beforeinsertregistration)
       - [afterInsertMatch](#afterinsertmatch)
+    - [Test af stored procedures, functions og triggers.](#test-af-stored-procedures-functions-og-triggers)
+      - [Stored procedure - Register player](#stored-procedure---register-player)
+      - [Function - getTournamentStatus](#function---gettournamentstatus)
+      - [Trigger - BeforeInsertRegistration](#trigger---beforeinsertregistration)
   - [Task 4](#task-4)
+  - [Documentation for med og uden stored procedures](#documentation-for-med-og-uden-stored-procedures)
+      - [joinTourament code](#jointourament-code)
+      - [submitMatchResult code](#submitmatchresult-code)
+      - [joinTournament swagger and result](#jointournament-swagger-and-result)
+      - [submitMatchResult swagger and result](#submitmatchresult-swagger-and-result)
   - [Task 5](#task-5)
+    - [Betragtninger og fordele og ulemper](#betragtninger-og-fordele-og-ulemper)
 
 ---
 
 ## Introduction
-Dette er vores aflevering repository for OLA 1. Under hver task ligger svarene til de forskellige opgaver.
+Dette er vores aflevering repository for OLA 1. Under hver task ligger svarene til de forskellige opgaver. Opgaven er løst med en MsSQL database der kører i docker. Programmerings sproget er C# og vi har brugt Entity Framework til at kommunikere med databasen.
 
 
 ---
@@ -160,7 +171,7 @@ order by Created_At desc
 select player_id, count(tournament_id) as tournament_count
 from TournamentRegistrations
 group by player_id
-having count(tournament_id) < 3;
+having count(tournament_id) > 3;
 
 -- 15. Hent alle kampe i en turnering sorteret efter dato.
 select *
@@ -168,6 +179,17 @@ from Matches
 where tournament_id = 1
 order by match_date asc
 ```
+### Result of 3 of the queries
+Eksemplerne af vores queries er kørt på sql management studio og resultaterne er vist nedenfor.
+
+Query 4
+![example](./images/image9.png)
+Query 8
+![example](./images/image10.png)
+Query 9
+![example](./images/image8.png)
+
+
 ## Task 3
 
 ### Stored Procedures
@@ -182,8 +204,11 @@ CREATE PROCEDURE registerPlayer
 AS
 BEGIN
     SET NOCOUNT ON;
+
     INSERT INTO Players (username, email, ranking, created_at)
     VALUES (@username, @email, @ranking, GETDATE());
+
+    SELECT 'player registered' AS Message;
 END;
 GO
 ```
@@ -351,13 +376,60 @@ BEGIN
 END;
 GO
 ```
+### Test af stored procedures, functions og triggers.
+
+Herunder er nogle eksemepler på hvor de forskellige stored procedures, functions og triggers bliver brugt. 
+
+#### Stored procedure - Register player
+
+![code](./images/image12.png)
 
 
+#### Function - getTournamentStatus
+![DB](./images/image13.png)
 
+#### Trigger - BeforeInsertRegistration
+![code](./images/image11.png)
+
+
+---
 
 ## Task 4
+Vi minder læseren om at her er entity framework blevet brugt til kommunikation med databasen både ved brug af stored procedures, og ved brug af LINQ queries.
+
+## Documentation for med og uden stored procedures
+Koden herunder viser hvordan det fungere med og uden stored procedures. Til at styre hvorvidt hvilken måde er brugt, bruger vi en bool der hedder useStoredProcedures. Hvis den er sat til true, bruger vi stored procedures, ellers bruger vi LINQ queries.
+
+
+#### joinTourament code
+![code](./images/image5.png)
+#### submitMatchResult code
+![code](./images/image6.png)
+![code](./images/image7.png)
+
+
+
+
+Swagger og resultaterne er vist nedenfor. De ser ens ud for begge metoder, da de begge returnere det samme, og ligger det ens i databasen.
+
+
+
+#### joinTournament swagger and result
+Billede fra kald med swagger.
+![Swagger](./images/image.png)
+Resultat i DB.
+![DB](./images/image2.png)
+
+#### submitMatchResult swagger and result
+Billede fra kald med swagger.
+![Swagger](./images/image3.png)
+Resultat i DB.
+![DB](./images/image4.png)
 
 ## Task 5
+### Betragtninger og fordele og ulemper
 
-
-
+Vi syntes at der er både fordele og ulemper ved Sql programmering.
+Fordele er at man skriver mere databasenær kode hvilket øger performance. Det kan også øge dataintegriteten og standardisering af data og måde at arbejde med dataen.
+Ulemper er at det kan være mere besværligt at skulle skrive, og det kan være svært at vedligeholde. Det kan også være svært at teste og debugge. 
+Derudover skal man også have en plan for hvordan man vil håndtere evt migrationer af databasen til en anden relationel eller lignende database, da det kan være svært at flytte stored procedures og triggers over. Derudover kan det også være farligt ift. tainted data.
