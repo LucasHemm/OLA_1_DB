@@ -397,13 +397,13 @@ Herunder er nogle eksempler på hvor de forskellige stored procedures, functions
 ---
 
 ## Task 4
-Vi minder læseren om at her er entity framework blevet brugt til kommunikation med databasen både ved brug af stored procedures, og ved brug af LINQ queries.
+Vi minder læseren om, at her er entity framework blevet brugt til kommunikation med databasen både ved brug af stored procedures, og ved brug af LINQ queries.
 
 ## Documentation for med og uden stored procedures
 Koden herunder viser hvordan det fungere med og uden stored procedures. Til at styre hvorvidt hvilken måde er brugt, bruger vi en bool der hedder useStoredProcedures. Hvis den er sat til true, bruger vi stored procedures, ellers bruger vi LINQ queries.
 
 
-#### joinTourament code
+#### joinTournament code
 ![code](./images/image5.png)
 #### submitMatchResult code
 ![code](./images/image6.png)
@@ -412,7 +412,7 @@ Koden herunder viser hvordan det fungere med og uden stored procedures. Til at s
 
 
 
-Swagger og resultaterne er vist nedenfor. De ser ens ud for begge metoder, da de begge returnere det samme, og ligger det ens i databasen.
+Swagger og resultaterne er vist nedenfor. De ser ens ud for begge metoder, da de begge returnerer det samme, og ligger det ens i databasen.
 
 
 
