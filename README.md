@@ -29,6 +29,7 @@
 ---
 
 ## Introduction
+Dette er vores aflevering repository for OLA 1. Under hver task ligger svarene til de forskellige opgaver.
 
 
 ---
@@ -84,6 +85,89 @@
 
 ## Task 2
 
+```sql	
+-- 1. Hent alle turneringer, der starter inden for de næste 30 dage.
+select * 
+from Tournaments
+where start_date between GETDATE() and DATEADD(DAY, 30, GETDATE());
+
+-- 2. Find det antal turneringer, en spiller har deltaget i.
+select count(tournament_id) AS tournament_count
+from TournamentRegistrations
+where player_id = 1;
+
+-- 3. Vis en liste over spillere registreret i en bestemt turnering.
+select p.player_id, p.username
+from TournamentRegistrations tr
+join Players p on tr.player_id = p.player_id
+where tr.tournament_id = 1;
+
+-- 4. Find spillere med flest sejre i en bestemt turnering.
+select winner_id, COUNT(*) as win_count
+from Matches
+where tournament_id = 1
+group by winner_id
+order by win_count desc;
+
+-- 5. Hent alle kampe, hvor en bestemt spiller har deltaget.
+select * 
+from Matches
+where player1_id = 1 or player2_id 1;
+
+-- 6. Hent en spillers tilmeldte turneringer.
+select t.name
+from TournamentRegistrations tr
+join Tournaments t on tr.tournament_id = t.tournament_id
+where tr.tournament_id = 1;
+
+-- 7. Find de 5 bedst rangerede spillere.
+select top 5
+from Players
+order by ranking desc;
+
+-- 8. Beregn gennemsnitlig ranking for alle spillere.
+select avg(ranking) as average_ranking
+from Players;
+
+-- 9. Vis turneringer med mindst 5 deltagere.
+select t.Name, count(*) as registrations
+from Tournaments t
+join TournamentRegistrations tr on tr.Tournament_Id = t.Tournament_Id
+group by t.Tournament_Id, t.Name
+having count(*) > 5;
+
+-- 10. Find det samlede antal spillere i systemet.
+select count(*) as total_players
+from Players;
+
+-- 11. Find alle kampe, der mangler en vinder.
+select *
+from Matches
+where winner_id is null;
+
+-- 12. Vis de mest populære spil baseret på turneringsantal.
+select game, count(*) as tournament_count
+from Tournaments
+group by game
+order by tournament_count desc;
+
+-- 13. Find de 5 nyeste oprettede turneringer.
+select top 5 *
+from Tournaments
+order by Created_At desc
+
+-- 14. Find spillere, der har registreret sig i flere end 3 turneringer.
+select player_id, count(tournament_id) as tournament_count
+from TournamentRegistrations
+group by player_id
+having count(tournament_id) < 3;
+
+-- 15. Hent alle kampe i en turnering sorteret efter dato.
+select *
+from Matches
+where tournament_id = 1
+order by match_date asc
+```
 ## Task 3
 
 ### Stored Procedures
