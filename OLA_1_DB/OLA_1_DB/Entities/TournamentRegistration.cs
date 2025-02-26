@@ -1,16 +1,20 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace OLA_1_DB.Entities;
 
+
 public class TournamentRegistration
 {
-    public int Id { get; set; }
+    [Key]
+    public int TournamentRegistration_Id { get; set; }
     [NotNull]
-    public Tournament Tournament { get; set; }
+    public Tournament Tournament_ { get; set; }
     [NotNull]
-    public Player Player { get; set; }
+    public Player Player_ { get; set; }
     [NotNull]
-    public DateTime RegisteredAt { get; set; }
+    public DateTime Registered_At { get; set; }
     
     public TournamentRegistration()
     {

@@ -15,73 +15,73 @@ namespace OLA_1_DB.Migrations
                 name: "Players",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Player_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Ranking = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Created_At = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Players", x => x.Id);
+                    table.PrimaryKey("PK_Players", x => x.Player_Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Tournaments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Tournament_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Game = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaxPlayers = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Max_Players = table.Column<int>(type: "int", nullable: false),
+                    Start_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Created_At = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tournaments", x => x.Id);
+                    table.PrimaryKey("PK_Tournaments", x => x.Tournament_Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Matches",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Match_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TournamentId = table.Column<int>(type: "int", nullable: false),
-                    Player1Id = table.Column<int>(type: "int", nullable: false),
-                    Player2Id = table.Column<int>(type: "int", nullable: false),
-                    WinnerId = table.Column<int>(type: "int", nullable: false),
-                    MatchDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Tournament_Id = table.Column<int>(type: "int", nullable: false),
+                    Player1_Player_Id = table.Column<int>(type: "int", nullable: false),
+                    Player2_Player_Id = table.Column<int>(type: "int", nullable: false),
+                    Winner_Player_Id = table.Column<int>(type: "int", nullable: false),
+                    Match_Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Matches", x => x.Id);
+                    table.PrimaryKey("PK_Matches", x => x.Match_Id);
                     table.ForeignKey(
-                        name: "FK_Matches_Players_Player1Id",
-                        column: x => x.Player1Id,
+                        name: "FK_Matches_Players_Player1_Player_Id",
+                        column: x => x.Player1_Player_Id,
                         principalTable: "Players",
-                        principalColumn: "Id",
+                        principalColumn: "Player_Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Matches_Players_Player2Id",
-                        column: x => x.Player2Id,
+                        name: "FK_Matches_Players_Player2_Player_Id",
+                        column: x => x.Player2_Player_Id,
                         principalTable: "Players",
-                        principalColumn: "Id",
+                        principalColumn: "Player_Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Matches_Players_WinnerId",
-                        column: x => x.WinnerId,
+                        name: "FK_Matches_Players_Winner_Player_Id",
+                        column: x => x.Winner_Player_Id,
                         principalTable: "Players",
-                        principalColumn: "Id",
+                        principalColumn: "Player_Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Matches_Tournaments_TournamentId",
-                        column: x => x.TournamentId,
+                        name: "FK_Matches_Tournaments_Tournament_Id",
+                        column: x => x.Tournament_Id,
                         principalTable: "Tournaments",
-                        principalColumn: "Id",
+                        principalColumn: "Tournament_Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -89,48 +89,48 @@ namespace OLA_1_DB.Migrations
                 name: "TournamentRegistrations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    TournamentRegistration_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TournamentId = table.Column<int>(type: "int", nullable: false),
-                    PlayerId = table.Column<int>(type: "int", nullable: false),
-                    RegisteredAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Tournament_Id = table.Column<int>(type: "int", nullable: false),
+                    Player_Id = table.Column<int>(type: "int", nullable: false),
+                    Registered_At = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TournamentRegistrations", x => x.Id);
+                    table.PrimaryKey("PK_TournamentRegistrations", x => x.TournamentRegistration_Id);
                     table.ForeignKey(
-                        name: "FK_TournamentRegistrations_Players_PlayerId",
-                        column: x => x.PlayerId,
+                        name: "FK_TournamentRegistrations_Players_Player_Id",
+                        column: x => x.Player_Id,
                         principalTable: "Players",
-                        principalColumn: "Id",
+                        principalColumn: "Player_Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TournamentRegistrations_Tournaments_TournamentId",
-                        column: x => x.TournamentId,
+                        name: "FK_TournamentRegistrations_Tournaments_Tournament_Id",
+                        column: x => x.Tournament_Id,
                         principalTable: "Tournaments",
-                        principalColumn: "Id",
+                        principalColumn: "Tournament_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_Player1Id",
+                name: "IX_Matches_Player1_Player_Id",
                 table: "Matches",
-                column: "Player1Id");
+                column: "Player1_Player_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_Player2Id",
+                name: "IX_Matches_Player2_Player_Id",
                 table: "Matches",
-                column: "Player2Id");
+                column: "Player2_Player_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_TournamentId",
+                name: "IX_Matches_Tournament_Id",
                 table: "Matches",
-                column: "TournamentId");
+                column: "Tournament_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_WinnerId",
+                name: "IX_Matches_Winner_Player_Id",
                 table: "Matches",
-                column: "WinnerId");
+                column: "Winner_Player_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Players_Email",
@@ -145,14 +145,14 @@ namespace OLA_1_DB.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TournamentRegistrations_PlayerId",
+                name: "IX_TournamentRegistrations_Player_Id",
                 table: "TournamentRegistrations",
-                column: "PlayerId");
+                column: "Player_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TournamentRegistrations_TournamentId",
+                name: "IX_TournamentRegistrations_Tournament_Id",
                 table: "TournamentRegistrations",
-                column: "TournamentId");
+                column: "Tournament_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tournaments_Name",

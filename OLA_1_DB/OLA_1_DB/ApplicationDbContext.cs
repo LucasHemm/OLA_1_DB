@@ -29,25 +29,25 @@ public class ApplicationDbContext : DbContext
     {
         // Disable cascade delete on the Tournament relationship
         modelBuilder.Entity<Match>()
-            .HasOne(m => m.Tournament)
+            .HasOne(m => m.Tournament_)
             .WithMany(t => t.Matches) // Ensure Tournament has a Matches collection
             .OnDelete(DeleteBehavior.Restrict);
 
         // Disable cascade delete on the Player1 relationship
         modelBuilder.Entity<Match>()
-            .HasOne(m => m.Player1)
+            .HasOne(m => m.Player1_)
             .WithMany(p => p.MatchesAsPlayer1) // Ensure Player has a MatchesAsPlayer1 collection
             .OnDelete(DeleteBehavior.Restrict);
 
         // Disable cascade delete on the Player2 relationship
         modelBuilder.Entity<Match>()
-            .HasOne(m => m.Player2)
+            .HasOne(m => m.Player2_)
             .WithMany(p => p.MatchesAsPlayer2) // Ensure Player has a MatchesAsPlayer2 collection
             .OnDelete(DeleteBehavior.Restrict);
 
         // Optionally, disable cascade delete on the Winner relationship if desired
         modelBuilder.Entity<Match>()
-            .HasOne(m => m.Winner)
+            .HasOne(m => m.Winner_)
             .WithMany(p => p.MatchesWon) // Ensure Player has a MatchesWon collection
             .OnDelete(DeleteBehavior.Restrict);
     }

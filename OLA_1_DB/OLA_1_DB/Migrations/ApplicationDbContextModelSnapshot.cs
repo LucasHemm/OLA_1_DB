@@ -23,49 +23,49 @@ namespace OLA_1_DB.Migrations
 
             modelBuilder.Entity("OLA_1_DB.Entities.Match", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Match_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Match_Id"));
 
-                    b.Property<DateTime>("MatchDate")
+                    b.Property<DateTime>("Match_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Player1Id")
+                    b.Property<int>("Player1_Player_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("Player2Id")
+                    b.Property<int>("Player2_Player_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("TournamentId")
+                    b.Property<int>("Tournament_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("WinnerId")
+                    b.Property<int>("Winner_Player_Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("Match_Id");
 
-                    b.HasIndex("Player1Id");
+                    b.HasIndex("Player1_Player_Id");
 
-                    b.HasIndex("Player2Id");
+                    b.HasIndex("Player2_Player_Id");
 
-                    b.HasIndex("TournamentId");
+                    b.HasIndex("Tournament_Id");
 
-                    b.HasIndex("WinnerId");
+                    b.HasIndex("Winner_Player_Id");
 
                     b.ToTable("Matches");
                 });
 
             modelBuilder.Entity("OLA_1_DB.Entities.Player", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Player_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Player_Id"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("Created_At")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -79,7 +79,7 @@ namespace OLA_1_DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Player_Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -92,30 +92,30 @@ namespace OLA_1_DB.Migrations
 
             modelBuilder.Entity("OLA_1_DB.Entities.Tournament", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Tournament_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Tournament_Id"));
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime>("Created_At")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Game")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaxPlayers")
+                    b.Property<int>("Max_Players")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime>("Start_Date")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("Tournament_Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -125,82 +125,82 @@ namespace OLA_1_DB.Migrations
 
             modelBuilder.Entity("OLA_1_DB.Entities.TournamentRegistration", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TournamentRegistration_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TournamentRegistration_Id"));
 
-                    b.Property<int>("PlayerId")
+                    b.Property<int>("Player_Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("RegisteredAt")
+                    b.Property<DateTime>("Registered_At")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TournamentId")
+                    b.Property<int>("Tournament_Id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("TournamentRegistration_Id");
 
-                    b.HasIndex("PlayerId");
+                    b.HasIndex("Player_Id");
 
-                    b.HasIndex("TournamentId");
+                    b.HasIndex("Tournament_Id");
 
                     b.ToTable("TournamentRegistrations");
                 });
 
             modelBuilder.Entity("OLA_1_DB.Entities.Match", b =>
                 {
-                    b.HasOne("OLA_1_DB.Entities.Player", "Player1")
+                    b.HasOne("OLA_1_DB.Entities.Player", "Player1_")
                         .WithMany("MatchesAsPlayer1")
-                        .HasForeignKey("Player1Id")
+                        .HasForeignKey("Player1_Player_Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OLA_1_DB.Entities.Player", "Player2")
+                    b.HasOne("OLA_1_DB.Entities.Player", "Player2_")
                         .WithMany("MatchesAsPlayer2")
-                        .HasForeignKey("Player2Id")
+                        .HasForeignKey("Player2_Player_Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OLA_1_DB.Entities.Tournament", "Tournament")
+                    b.HasOne("OLA_1_DB.Entities.Tournament", "Tournament_")
                         .WithMany("Matches")
-                        .HasForeignKey("TournamentId")
+                        .HasForeignKey("Tournament_Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OLA_1_DB.Entities.Player", "Winner")
+                    b.HasOne("OLA_1_DB.Entities.Player", "Winner_")
                         .WithMany("MatchesWon")
-                        .HasForeignKey("WinnerId")
+                        .HasForeignKey("Winner_Player_Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Player1");
+                    b.Navigation("Player1_");
 
-                    b.Navigation("Player2");
+                    b.Navigation("Player2_");
 
-                    b.Navigation("Tournament");
+                    b.Navigation("Tournament_");
 
-                    b.Navigation("Winner");
+                    b.Navigation("Winner_");
                 });
 
             modelBuilder.Entity("OLA_1_DB.Entities.TournamentRegistration", b =>
                 {
-                    b.HasOne("OLA_1_DB.Entities.Player", "Player")
+                    b.HasOne("OLA_1_DB.Entities.Player", "Player_")
                         .WithMany()
-                        .HasForeignKey("PlayerId")
+                        .HasForeignKey("Player_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OLA_1_DB.Entities.Tournament", "Tournament")
+                    b.HasOne("OLA_1_DB.Entities.Tournament", "Tournament_")
                         .WithMany()
-                        .HasForeignKey("TournamentId")
+                        .HasForeignKey("Tournament_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Player");
+                    b.Navigation("Player_");
 
-                    b.Navigation("Tournament");
+                    b.Navigation("Tournament_");
                 });
 
             modelBuilder.Entity("OLA_1_DB.Entities.Player", b =>
