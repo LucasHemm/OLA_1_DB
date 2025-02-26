@@ -11,12 +11,19 @@
       - [Tournament Registrations](#tournament-registrations)
       - [Matches](#matches)
     - [SQL Script](#sql-script)
+  - [Task 2](#task-2)
+  - [Task 3](#task-3)
+    - [Stored Procedures](#stored-procedures)
+      - [register player](#register-player)
+      - [joinTournament](#jointournament)
+      - [submitMatchResult](#submitmatchresult)
+  - [Task 4](#task-4)
+  - [Task 5](#task-5)
 
 ---
 
 ## Introduction
 
-*Provide a brief overview of the OLA_1_DB project here.*
 
 ---
 
@@ -67,4 +74,63 @@
 
 ### SQL Script
 
-*Include your SQL script here.*
+## Task 2
+
+## Task 3
+
+### Stored Procedures
+
+#### register player
+
+```sql
+CREATE PROCEDURE registerPlayer
+    @username VARCHAR(255),
+    @email VARCHAR(255),
+    @ranking INT = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO Players (username, email, ranking, created_at)
+    VALUES (@username, @email, @ranking, GETDATE());
+END;
+GO
+```
+#### joinTournament
+
+```sql
+CREATE PROCEDURE joinTournament
+    @tournament_id INT,
+    @player_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO TournamentRegistrations (tournament_id, player_id, registered_at)
+    VALUES (@tournament_id, @player_id, GETDATE());
+END;
+GO
+```
+
+#### submitMatchResult 
+
+```sql
+CREATE PROCEDURE submitMatchResult
+    @tournament_id INT,
+    @player1_id INT,
+    @player2_id INT,
+    @winner_id INT,
+    @match_date DATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO Matches (tournament_id, player1_id, player2_id, winner_id, match_date)
+    VALUES (@tournament_id, @player1_id, @player2_id, @winner_id, @match_date);
+END;
+GO
+```
+
+## Task 4
+
+## Task 5
+
+
+
