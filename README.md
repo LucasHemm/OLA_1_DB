@@ -184,8 +184,10 @@ Eksemplerne af vores queries er kørt på sql management studio og resultaterne 
 
 Query 4
 ![example](./images/image9.png)
+
 Query 8
 ![example](./images/image10.png)
+
 Query 9
 ![example](./images/image8.png)
 
