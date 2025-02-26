@@ -79,6 +79,8 @@
 | `match_date`   | DATETIME    | Date and time when the match was played               | NOT NULL                                             |
 
 ### SQL Script
+[SQL Script](./OLA1_DB_Script&TestData.sql)
+
 
 ## Task 2
 
