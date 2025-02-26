@@ -26,6 +26,7 @@ public class Program
         using (var scope = app.Services.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            ApplicationDbContext.DbInitializer.Initialize(dbContext);
 
             // Apply any pending migrations and create the database if it doesn't exist testy
             try
