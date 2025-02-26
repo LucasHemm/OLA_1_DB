@@ -17,6 +17,12 @@
       - [register player](#register-player)
       - [joinTournament](#jointournament)
       - [submitMatchResult](#submitmatchresult)
+    - [Functions](#functions)
+      - [getTotalWins](#gettotalwins)
+      - [getTournamentStatus](#gettournamentstatus)
+    - [Triggers](#triggers)
+      - [beforeInsertRegistration](#beforeinsertregistration)
+      - [afterInsertMatch](#afterinsertmatch)
   - [Task 4](#task-4)
   - [Task 5](#task-5)
 
@@ -127,6 +133,141 @@ BEGIN
 END;
 GO
 ```
+
+### Functions
+
+#### getTotalWins
+
+```sql
+CREATE FUNCTION getTotalWins
+(
+    @player_id INT
+)
+RETURNS INT
+AS
+Begin
+    DECLARE @totalWins INT;
+    SELECT @totalWins = COUNT(*) FROM Matches WHERE winner_id = @player_id;
+    RETURN @totalWins;
+END;
+GO
+```
+
+#### getTournamentStatus
+
+```sql
+CREATE FUNCTION getTournamentStatus
+(
+    @tournament_id INT
+)
+RETURNS VARCHAR(255)
+AS
+BEGIN
+    DECLARE @status VARCHAR(255);
+    DECLARE @start_date DATE;
+
+    SELECT @start_date = start_date
+    FROM Tournaments
+    WHERE tournament_id = @tournament_id;
+
+    -- Check if the tournament exists
+    IF (@start_date IS NULL)
+    BEGIN
+        SET @status = 'Tournament Not Found';
+    END
+    -- Tournament hasn't started yet
+    ELSE IF (GETDATE() < @start_date)
+    BEGIN
+        SET @status = 'Upcoming';
+    END
+    -- Tournament is ongoing (within 7 days after the start date)
+    ELSE IF (GETDATE() >= @start_date AND GETDATE() < DATEADD(day, 7, @start_date))
+    BEGIN
+        SET @status = 'Ongoing';
+    END
+    -- Tournament is finished (more than 7 days since the start date)
+    ELSE
+    BEGIN
+        SET @status = 'Completed';
+    END
+
+    RETURN @status;
+END;
+GO
+```
+### Triggers
+
+#### beforeInsertRegistration
+```sql
+CREATE TRIGGER beforeInsertRegistration
+ON TournamentRegistrations
+INSTEAD OF INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @tournament_id INT,
+            @currentCount INT,
+            @maxPlayers INT;
+
+    SELECT @tournament_id = tournament_id FROM inserted;
+
+    -- Count the existing registrations for this tournament
+    SELECT @currentCount = COUNT(*) 
+    FROM TournamentRegistrations 
+    WHERE tournament_id = @tournament_id;
+
+    -- Get the maximum allowed players for this tournament
+    SELECT @maxPlayers = max_players 
+    FROM Tournaments 
+    WHERE tournament_id = @tournament_id;
+
+    -- If the tournament is already full, throw an error and cancel the insert
+    IF (@currentCount >= @maxPlayers)
+    BEGIN
+        RAISERROR('Turneringen er fuld, der er ikke plads til flere spillere.', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END
+
+    -- Otherwise, perform the insert
+    INSERT INTO TournamentRegistrations (tournament_id, player_id, registered_at)
+    SELECT tournament_id, player_id, registered_at
+    FROM inserted;
+END;
+GO
+```
+#### afterInsertMatch
+
+```sql
+CREATE TRIGGER afterInsertMatch
+ON Matches
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @player1_id INT,
+            @player2_id INT,
+            @winner_id INT;
+
+    SELECT @player1_id = player1_id, @player2_id = player2_id, @winner_id = winner_id
+    FROM inserted;
+
+    -- Update the ranking for the players
+    UPDATE Players
+    SET ranking = ranking + 10
+    WHERE player_id = @winner_id;
+
+    UPDATE Players
+    SET ranking = ranking - 10
+    WHERE player_id IN (@player1_id, @player2_id);
+END;
+GO
+```
+
+
+
 
 ## Task 4
 
