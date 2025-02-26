@@ -1,0 +1,6 @@
+@OLA_1_DB_HostAddress = http://localhost:5042
+
+GET {{OLA_1_DB_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
