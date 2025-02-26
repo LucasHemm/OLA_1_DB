@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OLA_1_DB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250226095206_GetTournamentStatusFunc")]
-    partial class GetTournamentStatusFunc
+    [Migration("20250226114506_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
