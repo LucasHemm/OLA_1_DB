@@ -1,19 +1,21 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OLA_1_DB.Entities;
 
 public class Match
 {
-    public int Id { get; set; }
+    [Key]
+    public int Match_Id { get; set; }
     [NotNull]
-    public Tournament Tournament { get; set; }
+    public Tournament Tournament_ { get; set; }
     [NotNull]
-    public Player Player1 { get; set; }
+    public Player Player1_ { get; set; }
     [NotNull]
-    public Player Player2 { get; set; }
-    public Player Winner { get; set; }
+    public Player Player2_ { get; set; }
+    public Player Winner_ { get; set; }
     [NotNull]
-    public DateTime MatchDate { get; set; }
+    public DateTime Match_Date { get; set; }
     public Match()
     {
         

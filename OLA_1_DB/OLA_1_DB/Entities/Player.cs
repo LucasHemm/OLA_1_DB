@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace OLA_1_DB.Entities
@@ -7,7 +8,8 @@ namespace OLA_1_DB.Entities
     [Index(nameof(Email), IsUnique = true)]
     public class Player
     {
-        public int Id { get; set; }
+        [Key]
+        public int Player_Id { get; set; }
         
         [NotNull]
         public string Username { get; set; }
@@ -18,7 +20,7 @@ namespace OLA_1_DB.Entities
         public int Ranking { get; set; }
         
         [NotNull]
-        public DateTime CreatedAt { get; set; }
+        public DateTime Created_At { get; set; }
         
         public List<Match> MatchesAsPlayer1 { get; set; }
         
