@@ -380,7 +380,7 @@ GO
 ```
 ### Test af stored procedures, functions og triggers.
 
-Herunder er nogle eksemepler på hvor de forskellige stored procedures, functions og triggers bliver brugt. 
+Herunder er nogle eksempler på hvor de forskellige stored procedures, functions og triggers bliver brugt. 
 
 #### Stored procedure - Register player
 
